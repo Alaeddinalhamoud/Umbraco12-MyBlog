@@ -1,0 +1,43 @@
+﻿@using Microsoft.Extensions.Options
+@using MyBlog.Domain.Models.AppSettingModels;
+@inject IOptions<GoogleRecaptchaSettings> googleRecaptchaSettingOptions
+
+<div class="my-5">
+    <div class="form-floating">
+        <input class="form-control" id="fullname" type="text" placeholder="Enter your full name..." required />
+        <label for="fullname">Full Name</label>
+        <div class="text-danger d-none" id="fullnameValidation">A Full Name is required.</div>
+    </div>
+    <div class="form-floating">
+        <input class="form-control" id="email" type="text" placeholder="Enter your email..." required />
+        <label for="email">Email address</label>
+        <div class="text-danger d-none" id="emailValidation">A email is required.</div>
+    </div>
+    <div class="form-floating">
+        <input class="form-control" id="subject" type="text" placeholder="Enter your subject..." required />
+        <label for="subject">Subject</label>
+        <div class="text-danger d-none" id="subjectValidation">A subject is required.</div>
+    </div>
+    <div class="form-floating">
+        <textarea class="form-control" id="message" placeholder="Enter your message here..." style="height: 12rem" required></textarea>
+        <label for="message">Message</label>
+        <div class="text-danger d-none" id="messageValidation">A message is required.</div>
+    </div>
+
+   <div id="html_element" class="mt-2 mb-2"></div>
+    <input required type="text" name="googleRecaptchaToken" id="googleRecaptchaToken" class="form-control" hidden />
+    <div class="text-danger mb-2 d-none" id="googleRecaptchaTokenValidation">A Recaptcha is required.</div>
+
+    <button class="btn btn-primary text-uppercase mt-2" id="contact-submit" type="submit">Send</button>
+</div>
+
+
+<partial name="ContactUs/_FeedbackFormSuccess" />
+<partial name="ContactUs/_FeedbackFormFailure" />
+
+<partial name="Bundles/_RecaptchaBundles" />
+<script type="text/javascript">
+    var sitekey = '@googleRecaptchaSettingOptions.Value.SiteKey'
+</script>
+
+<script src="~/views/partials/ContactUs/_feedbackform.cshtml.js" defer></script>

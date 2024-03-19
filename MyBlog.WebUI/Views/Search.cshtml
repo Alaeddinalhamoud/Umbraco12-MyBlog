@@ -1,0 +1,36 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Search>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+
+@{
+    string searchTerm = string.Empty;
+    string qSearchTerm = Context?.Request?.Query["q"].ToString()!;
+    string querySearchTerm = Context?.Request?.Query["query"].ToString()!;
+
+    if (!string.IsNullOrWhiteSpace(qSearchTerm)) searchTerm = qSearchTerm;
+    if (!string.IsNullOrWhiteSpace(querySearchTerm)) searchTerm = querySearchTerm;
+}
+
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                @if (string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    <p>Enter search term</p>
+                }
+
+                @if(Model?.EnableGoogleSearch ?? false)
+                {
+                    <partial name="Search/_GoogleSearch" model="@Model.GoogleCustomSearchApiKey" />
+                }
+                else
+                {
+                    <partial name="Search/_UmbracoSearch" model="(searchTerm, Umbraco)" />
+                }              
+
+            </div>
+        </div>
+    </div>
+</main>
